@@ -111,3 +111,35 @@ To run the tests, do:
 ## License
 
 [AGPL](https://www.gnu.org/licenses/agpl-3.0.en.html)
+
+## Bundled SDDI snippets
+
+The templates under `ckanext/scheme_sddi/templates/scheming/` were copied
+unchanged from MarijaKnezevic/ckanext-scheming, commit
+`f98daec25369b6f228831a9650ea55151306d313`:
+https://github.com/MarijaKnezevic/ckanext-scheming/tree/f98daec25369b6f228831a9650ea55151306d313/ckanext/scheming/templates/scheming
+
+They provide organization_alone, visibility, group, custom_form_fields and
+spatial form snippets, plus the spatial display snippet. The spatial form's
+included spatial_snippets/spatial_templates.html is bundled too.
+
+Enable `scheme_sddi` alongside `scheming_datasets` in `ckan.plugins`.
+SchemeSddiPlugin.update_config registers the templates directory;
+include_package_data in setup.cfg and the recursive HTML rule in MANIFEST.in
+include these files in distributions. Restart CKAN after deploying the extension.
+
+These are upstream copies, with the upstream runtime dependencies:
+- organization_alone uses scheming/form_snippets/_organization_select.html.
+- custom_form_fields uses CKAN's snippets/custom_form_fields.html.
+- group uses h.get_allowable_children_groups and the main-categories/topics
+  group hierarchy; the hierarchy helper must be supplied by an active extension.
+- spatial uses ckanext-spatial helpers, spatial/snippets/dataset_map.html and
+  the dataset_map_js, dataset_map_css, spatial_form_js, spatial_query_js and
+  spatial_query_css bundles. In particular, spatial_form_js belongs to the
+  custom editable-map implementation and is not provided by every spatial
+  installation. The local ckanext-spatial checkout inspected during this import
+  does not declare this bundle; it must be supplied before using this form.
+
+Composite templates remain supplied by the separate composite extension.
+The schemas' display_snippets/multiple_select.html reference is unchanged;
+its planned replacement with multiple_choice_lhm.html is a separate change.
