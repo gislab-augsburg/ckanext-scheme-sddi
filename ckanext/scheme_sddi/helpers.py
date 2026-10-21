@@ -247,3 +247,20 @@ def composite_get_default_value(text):
         now = datetime.datetime.now()
         return str(now.year)
     return text
+
+
+def get_allowable_children_groups(group_id):
+    """Return descendants at all levels, matching the SDDI hierarchy helper.
+
+    Accept a parent ID or name; missing parents return an empty list. Without
+    a parent, return all normal groups. This is a hierarchy lookup, not a
+    permission check; CKAN authorizes assignments when the dataset is saved.
+    """
+    from ckan import model
+
+    if not group_id:
+        return model.Group.all(group_type="group")
+    group = model.Group.get(group_id)
+    if group is None:
+        return []
+    return group.get_children_group_hierarchy(type="group")

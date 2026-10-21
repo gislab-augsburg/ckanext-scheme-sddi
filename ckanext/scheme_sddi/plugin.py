@@ -25,6 +25,7 @@ class SchemeSddiPlugin(plugins.SingletonPlugin):
 
     def get_helpers(self):
         return {
+            "get_allowable_children_groups": helpers.get_allowable_children_groups,
             "composite_get_as_dict": helpers.composite_get_as_dict,
             "composite_get_value_dict": helpers.composite_get_value_dict,
             "composite_get_label_dict": helpers.composite_get_label_dict,

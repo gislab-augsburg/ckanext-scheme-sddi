@@ -87,7 +87,7 @@ dataset_fields:
       - field_name: role
         label: Role
         preset: select
-        display_snippet: multiple_choice_lhm.html
+        display_snippet: multiple_select.html
         choices:
           - value: data_collector
             label: Data Collector

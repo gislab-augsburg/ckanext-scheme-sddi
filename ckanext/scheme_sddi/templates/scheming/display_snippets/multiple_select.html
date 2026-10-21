@@ -1,0 +1,26 @@
+{# Scalar select values and multiple selections share the same display. #}
+{%- set raw = data.get(field.field_name) -%}
+{%- set values = [] if raw is none else ([raw] if raw is string else raw) -%}
+{%- set labels = [] -%}
+{%- set choices = h.scheming_field_choices(field) -%}
+{%- for value in values -%}
+  {%- if value is not none and value != '' -%}
+    {%- set item = namespace(label=value) -%}
+    {%- for choice in choices -%}
+      {%- if choice.value == value -%}
+        {%- set item.label = h.scheming_language_text(choice.label) -%}
+      {%- endif -%}
+    {%- endfor -%}
+    {%- set ignored = labels.append(item.label) -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- if field.get('sorted_choices') -%}
+  {%- set labels = labels|sort -%}
+{%- endif -%}
+{%- if labels|length == 1 -%}
+  {{ labels[0] }}
+{%- elif labels -%}
+  <ul>
+    {%- for label in labels -%}<li>{{ label }}</li>{%- endfor -%}
+  </ul>
+{%- endif -%}

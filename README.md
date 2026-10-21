@@ -132,7 +132,9 @@ These are upstream copies, with the upstream runtime dependencies:
 - organization_alone uses scheming/form_snippets/_organization_select.html.
 - custom_form_fields uses CKAN's snippets/custom_form_fields.html.
 - group uses h.get_allowable_children_groups and the main-categories/topics
-  group hierarchy; the hierarchy helper must be supplied by an active extension.
+  group hierarchy. scheme_sddi now supplies and registers the helper itself;
+  display_group is not required for this lookup. It returns all descendants,
+  does not filter by user permissions, and returns [] for a missing parent.
 - spatial uses the SDDI editor bundled as `scheme_sddi/spatial_form_js` and
   `scheme_sddi/spatial_form_css`. Enable `spatial_metadata` from official
   ckanext-spatial v2.3.1 or v2.3.2 for its map helper, display template and assets.
@@ -152,7 +154,8 @@ and restart CKAN. The existing scheme_sddi asset registration and packaging rule
 include the new JS and CSS.
 
 Composite templates remain supplied by the separate composite extension.
-The schemas use display_snippets/multiple_choice_lhm.html from ckanext-lhm.
-The LHM plugin registering its templates must be active. The linked ckan-211-5
-version only renders four usage-rights labels and has no generic fallback;
-role labels will require a fallback in that template to display correctly.
+The schemas use the bundled display_snippets/multiple_select.html for roles.
+It displays translated schema choice labels for scalar values or lists, keeps
+unknown values visible as escaped text, and emits nothing for empty values.
+This display no longer depends on the LHM template. Restart CKAN after deployment
+to load the new helper registration and schema/template changes.
