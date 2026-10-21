@@ -133,12 +133,23 @@ These are upstream copies, with the upstream runtime dependencies:
 - custom_form_fields uses CKAN's snippets/custom_form_fields.html.
 - group uses h.get_allowable_children_groups and the main-categories/topics
   group hierarchy; the hierarchy helper must be supplied by an active extension.
-- spatial uses ckanext-spatial helpers, spatial/snippets/dataset_map.html and
-  the dataset_map_js, dataset_map_css, spatial_form_js, spatial_query_js and
-  spatial_query_css bundles. In particular, spatial_form_js belongs to the
-  custom editable-map implementation and is not provided by every spatial
-  installation. The local ckanext-spatial checkout inspected during this import
-  does not declare this bundle; it must be supplied before using this form.
+- spatial uses the SDDI editor bundled as `scheme_sddi/spatial_form_js` and
+  `scheme_sddi/spatial_form_css`. Enable `spatial_metadata` from official
+  ckanext-spatial v2.3.1 or v2.3.2 for its map helper, display template and assets.
+  The editor preloads spatial_query_js/css for Leaflet, Leaflet.draw and common
+  map configuration; do not additionally load dataset_map_js in the edit form.
+  No custom spatial fork or spatial_form_js bundle is required.
+
+The spatial form is now adapted locally. Its module is `sddi-spatial-form`,
+with an element-specific map container and scoped events. It does not fetch
+datasets or infer package IDs from URLs. Untouched GeoJSON remains unchanged;
+multipart geometries are split into editable layers, retaining their multipart
+type when saved. Mixed shape types serialize as GeometryCollection. Removing
+all shapes clears the field. Invalid text is retained and reported, not replaced
+by map edits. Browser integration still needs verification on the deployed CKAN.
+After deployment, rebuild your CKAN assets if your deployment prebuilds them,
+and restart CKAN. The existing scheme_sddi asset registration and packaging rules
+include the new JS and CSS.
 
 Composite templates remain supplied by the separate composite extension.
 The schemas' display_snippets/multiple_select.html reference is unchanged;

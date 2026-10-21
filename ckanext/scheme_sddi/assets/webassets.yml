@@ -12,3 +12,20 @@ composite_css:
     - css/composite.css
   output: scheme_sddi/%(version)s_composite.css
 #  filters: cssrewrite
+
+spatial_form_js:
+  filter: rjsmin
+  output: scheme_sddi/%(version)s_spatial_form.js
+  extra:
+    preload:
+      - ckanext-spatial/spatial_query_js
+  contents:
+    - js/spatial_form.js
+
+spatial_form_css:
+  output: scheme_sddi/%(version)s_spatial_form.css
+  extra:
+    preload:
+      - ckanext-spatial/spatial_query_css
+  contents:
+    - css/spatial_form.css
