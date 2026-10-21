@@ -152,5 +152,7 @@ and restart CKAN. The existing scheme_sddi asset registration and packaging rule
 include the new JS and CSS.
 
 Composite templates remain supplied by the separate composite extension.
-The schemas' display_snippets/multiple_select.html reference is unchanged;
-its planned replacement with multiple_choice_lhm.html is a separate change.
+The schemas use display_snippets/multiple_choice_lhm.html from ckanext-lhm.
+The LHM plugin registering its templates must be active. The linked ckan-211-5
+version only renders four usage-rights labels and has no generic fallback;
+role labels will require a fallback in that template to display correctly.
