@@ -159,3 +159,15 @@ It displays translated schema choice labels for scalar values or lists, keeps
 unknown values visible as escaped text, and emits nothing for empty values.
 This display no longer depends on the LHM template. Restart CKAN after deployment
 to load the new helper registration and schema/template changes.
+
+## Thing groups and sensor groups
+
+The device schema includes is_thing_group for collections of Things. Wrench's
+ObservedProperty groups use true, while is_sensor_group defaults to false in
+Wrench because physical sensor status cannot be inferred from geometry.
+An explicitly identified sensor group is a Thing group too; its documented
+MultiPoint constraint is retained. General Thing groups support polygon and mixed
+geometry without that constraint. These are schema semantics/help texts, not new
+server-side cross-field validators. Wrench validates its own generated geometry.
+Deploy this schema and restart CKAN before deploying the corresponding Wrench
+update. Review old automatically generated sensor-group flags before area updates.

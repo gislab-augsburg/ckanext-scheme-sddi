@@ -407,6 +407,23 @@ dataset_fields:
     label: Observed Property
     help_text: Physical or environmental property this device observes (e.g. temperature, humidity).
  
+  - field_name: is_thing_group
+    label:
+      en: Is Thing Group?
+      de: Ist eine Thing-Gruppe?
+    preset: select
+    validators: ignore_missing scheming_choices
+    choices:
+      - value: "true"
+        label: "Yes"
+      - value: "false"
+        label: "No"
+    help_text: >
+      A collection of physical or virtual Things, for example buildings grouped
+      by ObservedProperty. Locations may be MultiPoint, MultiPolygon,
+      MultiLineString or GeometryCollection. Sensor groups are a specialised
+      subset of Thing groups; geometry alone does not establish sensor status.
+
   - field_name: is_sensor_group
     label: Is Sensor Group?
     form_snippet: select.html
@@ -416,8 +433,12 @@ dataset_fields:
       - value: "false"
         label: "No"
     help_text: >
+      True only when the group is explicitly identified as a collection of
+      sensor devices; it is then also a Thing group. False means the entry is
+      not classified as a sensor group, not that its data has no sensors.
       OCL constraint: if true and a location is given, the location geometry
-      must be of type GM_MultiPoint.
+      must be of type GM_MultiPoint. This restriction does not apply to general
+      Thing groups with is_sensor_group=false.
  
 resource_fields:
  
